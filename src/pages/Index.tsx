@@ -1,3 +1,5 @@
+import { Header } from "@/components/Header";
+import { ScrollProgress } from "@/components/ScrollProgress";
 import { Hero } from "@/components/Hero";
 import { ProblemSolution } from "@/components/ProblemSolution";
 import { HowItWorks } from "@/components/HowItWorks";
@@ -9,6 +11,8 @@ import { Footer } from "@/components/Footer";
 const Index = () => {
   return (
     <div className="min-h-screen">
+      <ScrollProgress />
+      <Header />
       <Hero />
       <ProblemSolution />
       <HowItWorks />

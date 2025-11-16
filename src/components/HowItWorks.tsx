@@ -1,4 +1,12 @@
+import { useScrollAnimation } from "@/hooks/useScrollAnimation";
+import { Check, Info } from "lucide-react";
+import { useState } from "react";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+
 export const HowItWorks = () => {
+  const { ref, isVisible } = useScrollAnimation(0.3);
+  const [hoveredStep, setHoveredStep] = useState<number | null>(null);
+
   const steps = [
     {
       number: "1",
@@ -25,8 +33,8 @@ export const HowItWorks = () => {
   ];
 
   return (
-    <section className="py-24 bg-secondary/50 relative overflow-hidden">
-      <div className="absolute top-0 right-0 w-96 h-96 bg-gradient-purple rounded-full gradient-blur" />
+    <section ref={ref} className="py-24 bg-secondary/50 relative overflow-hidden">
+      <div className="absolute top-0 right-0 w-96 h-96 bg-gradient-purple rounded-full gradient-blur animate-pulse" />
       
       <div className="container mx-auto px-4 relative z-10">
         <div className="text-center mb-20 max-w-3xl mx-auto">
@@ -36,26 +44,68 @@ export const HowItWorks = () => {
           </p>
         </div>
 
-        <div className="max-w-6xl mx-auto space-y-16">
+        <div className="max-w-6xl mx-auto space-y-16 relative">
+          {/* Connecting Line */}
+          {isVisible && (
+            <div className="hidden md:block absolute left-[60px] top-[80px] bottom-[80px] w-1">
+              <div 
+                className="h-full bg-gradient-to-b from-accent via-gradient-purple to-gradient-pink animate-fade-in-up"
+                style={{ animationDuration: '1.5s' }}
+              />
+            </div>
+          )}
+
           {steps.map((step, index) => (
-            <div key={index} className="grid md:grid-cols-[120px_1fr] gap-8 items-start">
-              <div className="flex items-center justify-center">
-                <div className="w-20 h-20 rounded-full bg-accent flex items-center justify-center">
-                  <span className="text-4xl font-bold text-accent-foreground">{step.number}</span>
+            <div 
+              key={index} 
+              className={`grid md:grid-cols-[120px_1fr] gap-8 items-start hover-lift ${
+                isVisible ? 'animate-fade-in-up' : 'opacity-0'
+              }`}
+              style={{ animationDelay: `${index * 0.2}s` }}
+              onMouseEnter={() => setHoveredStep(index)}
+              onMouseLeave={() => setHoveredStep(null)}
+            >
+              <div className="flex items-center justify-center relative z-10">
+                <div 
+                  className={`w-20 h-20 rounded-full bg-accent flex items-center justify-center transition-all duration-300 ${
+                    hoveredStep === index ? 'scale-110 rotate-360 shadow-lg shadow-accent/50' : ''
+                  }`}
+                >
+                  {hoveredStep === index ? (
+                    <Check className="w-10 h-10 text-accent-foreground" />
+                  ) : (
+                    <span className="text-4xl font-bold text-accent-foreground">{step.number}</span>
+                  )}
                 </div>
               </div>
               
-              <div className="space-y-4">
+              <div className={`space-y-4 p-6 rounded-lg transition-all duration-300 ${
+                hoveredStep === index ? 'bg-card/50 shadow-xl border border-gradient-purple/30 -translate-y-2' : ''
+              }`}>
                 <div>
-                  <div className="text-sm font-semibold tracking-wider text-muted-foreground mb-1">
+                  <div className={`text-sm font-semibold tracking-wider text-muted-foreground mb-1 transition-colors ${
+                    hoveredStep === index ? 'text-gradient-purple' : ''
+                  }`}>
                     {step.title}
                   </div>
-                  <h3 className="text-2xl md:text-3xl font-bold mb-3">{step.subtitle}</h3>
+                  <h3 className={`text-2xl md:text-3xl font-bold mb-3 transition-colors ${
+                    hoveredStep === index ? 'text-gradient' : ''
+                  }`}>{step.subtitle}</h3>
                 </div>
                 <p className="text-lg leading-relaxed text-foreground/90">{step.description}</p>
                 {step.tooltip && (
-                  <div className="p-4 bg-accent/10 rounded-lg border-l-4 border-accent">
-                    <p className="text-sm leading-relaxed text-foreground/80">{step.tooltip}</p>
+                  <div className="p-4 bg-accent/10 rounded-lg border-l-4 border-accent relative">
+                    <TooltipProvider>
+                      <Tooltip>
+                        <TooltipTrigger asChild>
+                          <Info className="w-4 h-4 text-accent absolute top-4 right-4 animate-pulse cursor-help" />
+                        </TooltipTrigger>
+                        <TooltipContent className="max-w-xs">
+                          <p className="text-sm">{step.tooltip}</p>
+                        </TooltipContent>
+                      </Tooltip>
+                    </TooltipProvider>
+                    <p className="text-sm leading-relaxed text-foreground/80 pr-8">{step.tooltip}</p>
                   </div>
                 )}
                 <p className="text-sm italic text-muted-foreground">{step.note}</p>
