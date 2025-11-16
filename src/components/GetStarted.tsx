@@ -1,8 +1,14 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Code, Users, Server, HelpCircle } from "lucide-react";
+import { useScrollAnimation } from "@/hooks/useScrollAnimation";
+import { useState } from "react";
 
 export const GetStarted = () => {
+  const { ref, isVisible } = useScrollAnimation(0.3);
+  const [hoveredCard, setHoveredCard] = useState<number | null>(null);
+
+  const icons = [Code, Users, Server];
   const paths = [
     {
       tag: "BUILD",
@@ -28,8 +34,8 @@ export const GetStarted = () => {
   ];
 
   return (
-    <section className="py-24 relative overflow-hidden">
-      <div className="absolute top-20 right-0 w-96 h-96 bg-gradient-purple rounded-full gradient-blur" />
+    <section ref={ref} className="py-24 relative overflow-hidden">
+      <div className="absolute top-20 right-0 w-96 h-96 bg-gradient-purple rounded-full gradient-blur animate-pulse" />
       
       <div className="container mx-auto px-4 relative z-10">
         <div className="text-center mb-20 max-w-3xl mx-auto">
@@ -40,40 +46,63 @@ export const GetStarted = () => {
         </div>
 
         <div className="grid md:grid-cols-3 gap-8 max-w-7xl mx-auto mb-12">
-          {paths.map((path, index) => (
-            <Card key={index} className="flex flex-col">
-              <CardHeader>
-                <div className="text-xs font-bold tracking-wider text-accent mb-2">
-                  {path.tag}
-                </div>
-                <CardTitle className="text-2xl">{path.title}</CardTitle>
-                <CardDescription className="text-base leading-relaxed mt-4">
-                  {path.description}
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="mt-auto">
-                <Button 
-                  variant="outline" 
-                  className="w-full group hover:bg-accent hover:text-accent-foreground hover:border-accent"
-                  asChild
-                >
-                  <a href={path.link} target="_blank" rel="noopener noreferrer">
-                    {path.button}
-                    <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
-                  </a>
-                </Button>
-              </CardContent>
-            </Card>
-          ))}
+          {paths.map((path, index) => {
+            const IconComponent = icons[index];
+            return (
+              <Card 
+                key={index} 
+                className={`flex flex-col transition-all duration-300 hover:scale-103 hover:-translate-y-2 hover:border-gradient-purple hover:shadow-2xl ${
+                  isVisible ? 'animate-fade-in-up' : 'opacity-0'
+                }`}
+                style={{ animationDelay: `${index * 0.2}s` }}
+                onMouseEnter={() => setHoveredCard(index)}
+                onMouseLeave={() => setHoveredCard(null)}
+              >
+                <CardHeader>
+                  <IconComponent 
+                    className={`w-10 h-10 mb-4 text-accent transition-all duration-300 ${
+                      hoveredCard === index ? 'scale-115 rotate-3' : ''
+                    }`}
+                  />
+                  <div className="text-xs font-bold tracking-wider text-accent mb-2">
+                    {path.tag}
+                  </div>
+                  <CardTitle className="text-2xl">{path.title}</CardTitle>
+                  <CardDescription className="text-base leading-relaxed mt-4">
+                    {path.description}
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="mt-auto">
+                  <Button 
+                    variant="outline" 
+                    className="w-full group hover:bg-accent hover:text-accent-foreground hover:border-accent transition-all duration-300"
+                    asChild
+                  >
+                    <a href={path.link} target="_blank" rel="noopener noreferrer">
+                      {path.button}
+                      <ArrowRight className={`ml-2 h-4 w-4 transition-transform ${
+                        hoveredCard === index ? 'translate-x-2' : 'group-hover:translate-x-1'
+                      }`} />
+                    </a>
+                  </Button>
+                </CardContent>
+              </Card>
+            );
+          })}
         </div>
 
-        <p className="text-center text-muted-foreground">
-          New to Web3? Start with our{" "}
-          <a href="#" className="underline hover:text-accent transition-colors">
-            Beginner's Guide
-          </a>{" "}
-          to understand how decentralized AI works.
-        </p>
+        <div className="text-center">
+          <Button 
+            variant="outline" 
+            className="group hover:bg-accent/10 hover:border-accent transition-all duration-300 rounded-full px-6"
+            asChild
+          >
+            <a href="#">
+              <HelpCircle className="mr-2 h-4 w-4" />
+              New to Web3? Start with our Beginner's Guide
+            </a>
+          </Button>
+        </div>
       </div>
     </section>
   );
