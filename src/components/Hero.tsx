@@ -53,16 +53,9 @@ export const Hero = () => {
         <p className="text-xl md:text-2xl mb-4 text-foreground/80 max-w-3xl mx-auto">
           Ritual makes AI open, verifiable, unstoppable.
         </p>
-        <p className="text-base md:text-lg mb-12 text-muted-foreground max-w-2xl mx-auto">
+        <p className="text-base md:text-lg text-muted-foreground max-w-2xl mx-auto">
           The future of artificial intelligence is too important to be controlled by few corporations.
         </p>
-        <Button 
-          size="lg" 
-          className="group bg-accent hover:bg-accent/90 hover:scale-105 text-accent-foreground font-semibold px-8 py-6 text-lg rounded-full transition-all duration-300 shadow-lg hover:shadow-xl"
-        >
-          Get Started
-          <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
-        </Button>
       </div>
     </section>
   );
