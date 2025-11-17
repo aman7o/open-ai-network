@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { ArrowRight, Code, Users, Server, HelpCircle } from "lucide-react";
+import { ArrowRight, Code, Users } from "lucide-react";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 import { useState } from "react";
 
@@ -8,7 +8,7 @@ export const GetStarted = () => {
   const { ref, isVisible } = useScrollAnimation(0.3);
   const [hoveredCard, setHoveredCard] = useState<number | null>(null);
 
-  const icons = [Code, Users, Server];
+  const icons = [Code, Users];
   const paths = [
     {
       tag: "BUILD",
@@ -22,14 +22,7 @@ export const GetStarted = () => {
       title: "Join the Community",
       description: "Connect with thousands of developers, researchers, and AI enthusiasts building the future of decentralized AI. Get support, share ideas, and stay updated on network developments.",
       button: "Discord Community",
-      link: "https://discord.ritual.net",
-    },
-    {
-      tag: "CONTRIBUTE",
-      title: "Run a Node",
-      description: "Have GPU hardware? Contribute compute power to the Ritual network and earn rewards. Help democratize AI infrastructure while generating passive income from your hardware.",
-      button: "Node Setup Guide",
-      link: "https://docs.ritual.net/nodes",
+      link: "https://discord.gg/ritual-net",
     },
   ];
 
@@ -45,7 +38,7 @@ export const GetStarted = () => {
           </p>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-8 max-w-7xl mx-auto mb-12">
+        <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
           {paths.map((path, index) => {
             const IconComponent = icons[index];
             return (
@@ -89,19 +82,6 @@ export const GetStarted = () => {
               </Card>
             );
           })}
-        </div>
-
-        <div className="text-center">
-          <Button 
-            variant="outline" 
-            className="group hover:bg-accent/10 hover:border-accent transition-all duration-300 rounded-full px-6"
-            asChild
-          >
-            <a href="#">
-              <HelpCircle className="mr-2 h-4 w-4" />
-              New to Web3? Start with our Beginner's Guide
-            </a>
-          </Button>
         </div>
       </div>
     </section>

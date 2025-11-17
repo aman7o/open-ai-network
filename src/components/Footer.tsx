@@ -10,7 +10,7 @@ export const Footer = () => {
             <a href="https://twitter.com/ritualnet" target="_blank" rel="noopener noreferrer" className="hover:text-accent transition-colors">
               Twitter
             </a>
-            <a href="https://discord.ritual.net" target="_blank" rel="noopener noreferrer" className="hover:text-accent transition-colors">
+            <a href="https://discord.gg/ritual-net" target="_blank" rel="noopener noreferrer" className="hover:text-accent transition-colors">
               Discord
             </a>
           </div>

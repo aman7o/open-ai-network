@@ -54,7 +54,7 @@ export const Hero = () => {
           Ritual makes AI open, verifiable, unstoppable.
         </p>
         <p className="text-base md:text-lg mb-12 text-muted-foreground max-w-2xl mx-auto">
-          The future of artificial intelligence is too important to be controlled by three corporations.
+          The future of artificial intelligence is too important to be controlled by few corporations.
         </p>
         <Button 
           size="lg" 
