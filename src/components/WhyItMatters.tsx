@@ -76,13 +76,6 @@ export const WhyItMatters = () => {
                   <p className="text-sm font-semibold mb-2">Why it matters:</p>
                   <p className="text-sm text-muted-foreground leading-relaxed">{useCase.why}</p>
                 </div>
-                <Button 
-                  variant="ghost" 
-                  className="w-full group hover:bg-accent/10 transition-all duration-300"
-                >
-                  Learn More
-                  <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
-                </Button>
               </CardContent>
             </Card>
           ))}
